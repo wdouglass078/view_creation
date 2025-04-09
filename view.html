@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .page-title {
+            top: 20px;
+            width: 455px;
+            margin: auto;
+            position: relative;
+            background-color: rgb(0, 123, 255);
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .container {
+            position: relative;
+            max-width: 455px;
+            background: #ffffff;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            margin: auto;
+        }
+
+        .device-image {
+            width: 32px;
+            height: 28px;
+            margin-right: 7px;
+        }
+
+        .device-select {
+            margin-bottom: 30px;
+        }
+
+        .device-option {
+            color: black;
+            border-color: black;
+            margin-right: 20px;
+            margin-top: 10px;
+            width: 180px;
+        }
+
+        .advanced-section {
+            width: 100%;
+            padding: 10px;
+            box-shadow: none;
+            border: none;
+        }
+
+        #advanced-section-container {
+            margin-top: 20px;
+            width: 100%;
+            align-content: center;
+        }
+
+        #headingOptions {
+            display: flex;
+            justify-content: center;
+        }
+
+        #headingOptions .btn-link {
+            color: #fff;
+            background-color: rgb(0, 123, 255);
+            border-radius: 5px;
+            padding: 10px 15px;
+            text-decoration: none;
+            border: none;
+            display: inline-block;
+            transition: background-color 0.2s ease;
+        }
+
+        #headingOptions .btn-link:hover,
+        #headingOptions .btn-link:focus {
+            background-color: rgb(36, 139, 250);
+            text-decoration: none;
+        }
+
+        .card-header {
+            border: none;
+            background-color: #fff;
+        }
+
+        .card {
+            border: none;
+        }
+
+        #toggle-arrow {
+            display: inline-block;
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        #collapseOptions {
+            background-color: #f7f7f7;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            padding: 3px;
+        }
+
+        #collapseOptions.collapsing {
+            transition: all 0.3s ease;
+        }
+
+        #advanced-section-container .form-check,
+        #advanced-section-container .form-group {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .form-group,
+        .form-check,
+        #advanced-section-container {
+            padding-top: 4px;
+            padding-bottom: 4px;
+        }
+
+        .form-check-input {
+            margin-right: 10px;
+        }
+
+        #password-length-container {
+            display: flex;
+            align-items: center;
+        }
+
+        #password-length-container label {
+            margin-top: 7px;
+        }
+
+        #password-length-slider {
+            margin-left: 10px;
+        }
+
+        #password-length {
+            width: fit-content;
+            margin-left: 10px;
+        }
+
+        .info-icon {
+            cursor: pointer;
+        }
+
+        #generate-button {
+            background-color: rgb(33, 33, 39);
+        }
+
+        #copy-button {
+            background-color: rgb(109, 109, 105);
+        }
+
+        #generated-password {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            overflow-y: auto;
+        }
+
+        #generated-container,
+        #password-length-container {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        #password-length {
+            width: fit-content;
+            margin-left: 10px;
+        }
+
+        .text-center-buttons {
+            display: flex;
+            position: relative;
+        }
+
+        #copy-button,
+        #generate-button {
+            margin-left: 10px;
+            border: 0px white;
+            background-color: transparent;
+            flex-shrink: 0;
+            transform: translate(0, -22%);
+        }
+
+        #copy-button img,
+        #generate-button img {
+            width: 20px;
+            height: 20px;
+        }
+
+        #min-numbers-container,
+        #min-special-container,
+        #num-of-word-container,
+        #word-separator-container {
+            display: flex;
+            align-items: center;
+        }
+
+        #min-numbers,
+        #min-special {
+            width: fit-content;
+            margin-left: 10px;
+        }
+
+        #device-choices {
+            margin-top: 30px;
+        }
+
+        .device-select-group {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .other-option-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .device-option input[type="checkbox"] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .btn.device-option {
+            cursor: pointer;
+        }
+
+        .btn.device-option input[type="checkbox"]:checked+img {
+            border: 2px solid #007bff;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+    <div class="page-title">
+        <div class="banner">
+            <h1 style="font-size: xx-large; margin: 0;">Password Generator</h1>
+        </div>
+    </div>
+    <div class="container mt-4">
+        <p style="font-size: smaller; text-align: center; margin-top: 10px; margin-bottom: 25px;">Create your new
+            password easily — just choose your preferences below!</p>
+        <form id="password-form">
+            <div class="form-group" id="generated-container">
+                <div id="generated-password"></div>
+                <div class="text-center-buttons mt-4 mb-2">
+                    <button type="button" class="btn btn-success" id="copy-button">
+                        <img src="https://cdn-icons-png.flaticon.com/512/88/88026.png" alt="Copy">
+                    </button>
+                    <button type="button" class="btn btn-primary" id="generate-button">
+                        <img src="https://static.thenounproject.com/png/3502636-200.png" alt="Generate">
+                    </button>
+                </div>
+            </div>
+            {% block standard %}
+            {% endblock %}
+
+            <div class="form-group">
+                <label for="sensitivity">How sensitive is this password?</label>
+                <span class="info-icon" data-toggle="tooltip" data-placement="top"
+                    title="Determines how secure the password needs to be">&#9432;</span>
+                <input type="range" class="form-control-range" id="sensitivity" name="sensitivity" min="1" max="3"
+                    step="1">
+                <div class="d-flex justify-content-between">
+                    <span>Not very</span>
+                    <span>Moderately</span>
+                    <span>Highly</span>
+                </div>
+            </div>
+
+            <div id="device-choices">
+                <label for="device">Which devices will you be using this password on?</label>
+                <span class="info-icon" data-toggle="tooltip" data-placement="top"
+                    title="Select devices your password will get used on">&#9432;</span>
+                <div class="btn-group-toggle device-select" data-toggle="buttons">
+                    <div id="device-select-group">
+                        <label class="btn btn-outline-primary device-option">
+                            <input type="checkbox" id="laptop_pc" name="device-options" value="laptop_pc" checked>
+                            <img class="device-image"
+                                src="https://www.shareicon.net/data/512x512/2015/10/03/111474_laptop_512x512.png"
+                                alt="Laptop/PC">
+                            Laptop/PC
+                        </label>
+                        <label class="btn btn-outline-primary device-option">
+                            <input type="checkbox" id="mobile" name="device-options" value="mobile">
+                            <img class="device-image" src="https://static.thenounproject.com/png/16427-200.png"
+                                alt="Phone/Tablet">
+                            Phone/Tablet
+                        </label>
+                        <label class="btn btn-outline-primary device-option">
+                            <input type="checkbox" id="tv" name="device-options" value="tv">
+                            <img class="device-image"
+                                src="https://static.vecteezy.com/system/resources/previews/017/785/091/non_2x/smart-tv-icon-on-transparent-background-free-png.png"
+                                alt="TV">
+                            TV
+                        </label>
+                        <label class="btn btn-outline-primary device-option">
+                            <input type="checkbox" id="gaming_system" name="device-options" value="gaming_system">
+                            <img class="device-image" src="https://static.thenounproject.com/png/2199148-200.png"
+                                alt="Gaming System">
+                            Gaming System
+                        </label>
+                    </div>
+                    <div class="other-option-container">
+                        <label class="btn btn-outline-primary device-option">
+                            <input type="checkbox" id="other_system" name="device-options" value="other_system">
+                            <img class="device-image" src="https://static.thenounproject.com/png/4513746-200.png"
+                                alt="Other">
+                            Other
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Do you need to memorize this password?</label>
+                <span class="info-icon" data-toggle="tooltip" data-placement="top"
+                    title="Check if you must remember and type the password yourself">&#9432;</span>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="yes-memorize" name="memorability" value="yes">
+                    <label class="form-check-label" for="yes-memorize">Yes</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="no-memorize" name="memorability" value="no"
+                        checked>
+                    <label class="form-check-label" for="no-memorize">No</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Will you have access to your password manager?</label>
+                <span class="info-icon" data-toggle="tooltip" data-placement="top"
+                    title="Will you be able to autofill using your password manager">&#9432;</span>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="yes-pwm" name="pwm" value="yes" checked>
+                    <label class="form-check-label" for="yes-pwm">Yes</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="no-pwm" name="pwm" value="no">
+                    <label class="form-check-label" for="no-pwm">No</label>
+                </div>
+            </div>
+
+            {% block template %}
+
+            {% endblock %}
+
+            <div class="accordion" id="accordionOptions">
+                {% block wordBank %} {% endblock %}
+                <div class="card">
+                    <div class="card-header" id="headingOptions">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                data-target="#collapseOptions" aria-expanded="false" aria-controls="collapseOptions">
+                                More Options <span id="toggle-arrow" class="arrow">▼</span>
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseOptions" class="collapse" aria-labelledby="headingOptions"
+                        data-parent="#accordionOptions">
+                        <div class="card-body" id="advanced-section-container">
+                            <div class="advanced-section" id="password-options">
+                                <div class="form-group" id="password-length-container">
+                                    <label for="password-length">Length</label>
+                                    <input type="number" class="form-control" id="password-length" min="5" max="128"
+                                        value="64" required>
+                                    <input type="range" class="form-control-range" id="password-length-slider" min="8"
+                                        max="128" value="64">
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label" for="uppercase_letters">Uppercase Letters
+                                        (A-Z)</label>
+                                    <input type="checkbox" id="uppercase_letters" name="customizations"
+                                        value="uppercase_letters" checked>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label" for="lowercase_letters">Lowercase Letters
+                                        (a-z)</label>
+                                    <input type="checkbox" id="lowercase_letters" name="customizations"
+                                        value="lowercase_letters" checked>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label" for="numbers">Numbers (0-9)</label>
+                                    <input type="checkbox" id="numbers" name="customizations" value="numbers" checked>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label" for="symbols">Symbols (!@#$%^&*)</label>
+                                    <input type="checkbox" id="symbols" name="customizations" value="symbols" checked>
+                                </div>
+                                <div class="form-group" id="min-numbers-container">
+                                    <label for="min-numbers">Minimum Numbers</label>
+                                    <input type="number" class="form-control" id="min-numbers" min="0" max="50"
+                                        value="0" required>
+                                </div>
+                                <div class="form-group" id="min-special-container">
+                                    <label for="min-special">Minimum Special Characters</label>
+                                    <input type="number" class="form-control" id="min-special" min="0" max="50"
+                                        value="0" required>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label" for="ambiguous-characters">Avoid Ambiguous
+                                        Characters</label>
+                                    <input type="checkbox" id="ambiguous-characters" name="customizations"
+                                        value="ambiguous-characters" checked>
+                                </div>
+                            </div>
+
+                            {% block passphrase %}
+
+                            {% endblock %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        document.getElementById("copy-button").addEventListener("click", function () {
+            var generatedPasswordDiv = document.getElementById("generated-password");
+
+            // Select the text inside the generated password div
+            var range = document.createRange();
+            range.selectNodeContents(generatedPasswordDiv);
+            var selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+
+            // Execute the copy command
+            document.execCommand("copy");
+
+            // Deselect the text
+            selection.removeAllRanges();
+
+            // Provide user feedback (optional)
+            alert("Password copied to clipboard!");
+        });
+
+        function toggleArrowIcon() {
+            var collapseElement = document.getElementById('collapseOptions');
+            var toggleArrow = document.getElementById('toggle-arrow');
+
+            // Rotate arrow based on collapse state
+            if (collapseElement.classList.contains('show')) {
+                toggleArrow.style.transform = 'rotate(-180deg)'; // Rotate arrow upwards
+            } else {
+                toggleArrow.style.transform = 'rotate(0deg)'; // Rotate arrow downwards
+            }
+        }
+
+        // Event listener for the collapse show/hide
+        $('#collapseOptions').on('shown.bs.collapse hidden.bs.collapse', function () {
+            toggleArrowIcon();
+        });
+
+        var passwordLengthDisplay = document.getElementById("password-length-display");
+        var passwordLengthSlider = document.getElementById("password-length");
+
+        document.getElementById("password-length").addEventListener("input", syncSlider);
+        document.getElementById("password-length-slider").addEventListener("input", syncInput);
+
+        function syncSlider() {
+            var lengthInput = document.getElementById("password-length");
+            var sliderInput = document.getElementById("password-length-slider");
+            sliderInput.value = lengthInput.value;
+        }
+
+        function syncInput() {
+            var lengthInput = document.getElementById("password-length");
+            var sliderInput = document.getElementById("password-length-slider");
+            lengthInput.value = sliderInput.value;
+        }
+
+        passwordLengthSlider.addEventListener("input", function () {
+            passwordLengthDisplay.textContent = this.value;
+        });
+    </script>
+</body>
+
+</html>
