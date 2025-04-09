@@ -252,12 +252,11 @@
 <body class="bg-light">
     <div class="page-title">
         <div class="banner">
-            <h1 style="font-size: xx-large; margin: 0;">Password Generator</h1>
+            <h1 style="font-size: xx-large; margin: 0;">Password Time Estimator</h1>
         </div>
     </div>
     <div class="container mt-4">
-        <p style="font-size: smaller; text-align: center; margin-top: 10px; margin-bottom: 25px;">Create your new
-            password easily — just choose your preferences below!</p>
+        <p style="font-size: smaller; text-align: center; margin-top: 10px; margin-bottom: 25px;">Estimate the time it takes to enter your password. Just enter your password and choose your input device below!</p>
         <form id="password-form">
             <div class="form-group" id="generated-container">
                 <div id="generated-password"></div>
@@ -272,19 +271,6 @@
             </div>
             {% block standard %}
             {% endblock %}
-
-            <div class="form-group">
-                <label for="sensitivity">How sensitive is this password?</label>
-                <span class="info-icon" data-toggle="tooltip" data-placement="top"
-                    title="Determines how secure the password needs to be">&#9432;</span>
-                <input type="range" class="form-control-range" id="sensitivity" name="sensitivity" min="1" max="3"
-                    step="1">
-                <div class="d-flex justify-content-between">
-                    <span>Not very</span>
-                    <span>Moderately</span>
-                    <span>Highly</span>
-                </div>
-            </div>
 
             <div id="device-choices">
                 <label for="device">Which devices will you be using this password on?</label>
@@ -330,110 +316,14 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label>Do you need to memorize this password?</label>
-                <span class="info-icon" data-toggle="tooltip" data-placement="top"
-                    title="Check if you must remember and type the password yourself">&#9432;</span>
-                <div class="form-check">
-                    <input type="radio" class="form-check-input" id="yes-memorize" name="memorability" value="yes">
-                    <label class="form-check-label" for="yes-memorize">Yes</label>
-                </div>
-                <div class="form-check">
-                    <input type="radio" class="form-check-input" id="no-memorize" name="memorability" value="no"
-                        checked>
-                    <label class="form-check-label" for="no-memorize">No</label>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Will you have access to your password manager?</label>
-                <span class="info-icon" data-toggle="tooltip" data-placement="top"
-                    title="Will you be able to autofill using your password manager">&#9432;</span>
-                <div class="form-check">
-                    <input type="radio" class="form-check-input" id="yes-pwm" name="pwm" value="yes" checked>
-                    <label class="form-check-label" for="yes-pwm">Yes</label>
-                </div>
-                <div class="form-check">
-                    <input type="radio" class="form-check-input" id="no-pwm" name="pwm" value="no">
-                    <label class="form-check-label" for="no-pwm">No</label>
-                </div>
-            </div>
-
             {% block template %}
 
             {% endblock %}
 
-            <div class="accordion" id="accordionOptions">
-                {% block wordBank %} {% endblock %}
-                <div class="card">
-                    <div class="card-header" id="headingOptions">
-                        <h5 class="mb-0">
-                            <button class="btn btn-link" type="button" data-toggle="collapse"
-                                data-target="#collapseOptions" aria-expanded="false" aria-controls="collapseOptions">
-                                More Options <span id="toggle-arrow" class="arrow">▼</span>
-                            </button>
-                        </h5>
-                    </div>
-                    <div id="collapseOptions" class="collapse" aria-labelledby="headingOptions"
-                        data-parent="#accordionOptions">
-                        <div class="card-body" id="advanced-section-container">
-                            <div class="advanced-section" id="password-options">
-                                <div class="form-group" id="password-length-container">
-                                    <label for="password-length">Length</label>
-                                    <input type="number" class="form-control" id="password-length" min="5" max="128"
-                                        value="64" required>
-                                    <input type="range" class="form-control-range" id="password-length-slider" min="8"
-                                        max="128" value="64">
-                                </div>
-                                <div class="form-check">
-                                    <label class="form-check-label" for="uppercase_letters">Uppercase Letters
-                                        (A-Z)</label>
-                                    <input type="checkbox" id="uppercase_letters" name="customizations"
-                                        value="uppercase_letters" checked>
-                                </div>
-                                <div class="form-check">
-                                    <label class="form-check-label" for="lowercase_letters">Lowercase Letters
-                                        (a-z)</label>
-                                    <input type="checkbox" id="lowercase_letters" name="customizations"
-                                        value="lowercase_letters" checked>
-                                </div>
-                                <div class="form-check">
-                                    <label class="form-check-label" for="numbers">Numbers (0-9)</label>
-                                    <input type="checkbox" id="numbers" name="customizations" value="numbers" checked>
-                                </div>
-                                <div class="form-check">
-                                    <label class="form-check-label" for="symbols">Symbols (!@#$%^&*)</label>
-                                    <input type="checkbox" id="symbols" name="customizations" value="symbols" checked>
-                                </div>
-                                <div class="form-group" id="min-numbers-container">
-                                    <label for="min-numbers">Minimum Numbers</label>
-                                    <input type="number" class="form-control" id="min-numbers" min="0" max="50"
-                                        value="0" required>
-                                </div>
-                                <div class="form-group" id="min-special-container">
-                                    <label for="min-special">Minimum Special Characters</label>
-                                    <input type="number" class="form-control" id="min-special" min="0" max="50"
-                                        value="0" required>
-                                </div>
-                                <div class="form-check">
-                                    <label class="form-check-label" for="ambiguous-characters">Avoid Ambiguous
-                                        Characters</label>
-                                    <input type="checkbox" id="ambiguous-characters" name="customizations"
-                                        value="ambiguous-characters" checked>
-                                </div>
-                            </div>
-
-                            {% block passphrase %}
-
-                            {% endblock %}
-                        </div>
-                    </div>
-                </div>
-            </div>
     </div>
     </form>
     </div>
-
+    
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
