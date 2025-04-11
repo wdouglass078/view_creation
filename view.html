@@ -260,8 +260,8 @@
         <form id="password-form">
                 <div id="generated-password"></div>
                     <div id="user-passphrase-section">
-                        <label for="user-passphrase" id="user-passphrase-label">Enter Your Passphrase:</label>
-                        <input type="text" class="form-control" id="user-passphrase" name="user-passphrase" placeholder="Type your passphrase here">
+                        <label for="user-passphrase" id="user-passphrase-label">Enter Your Password:</label>
+                        <input type="text" class="form-control" id="user-passphrase" name="user-passphrase" placeholder="Type your password here">
                     </div>
             {% block standard %}
             {% endblock %}
@@ -311,7 +311,8 @@
             </div>
             
             <div id="prediction-box" class="alert alert-info mt-4" style="text-align: center; text-align: center;">
-                Predicted time to enter your password: <strong><span id="predicted-time">0</span> seconds</strong>
+                Predicted time to enter your password: <strong>
+                <br><span id="predicted-time">0</span> seconds</strong>
             </div>
 
             {% block template %}
@@ -388,6 +389,7 @@
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
+            
             const passInput = document.getElementById("user-passphrase");
             const checkboxes = document.querySelectorAll("input[name='device-options']");
             const predictionBox = document.getElementById("prediction-box");
@@ -397,20 +399,7 @@
                 if (!password || devices.length === 0) return 0;
 
                 const baseTimePerChar = 0.25; // seconds per character
-                let totalMultiplier = 0;
-
-                devices.forEach(device => {
-                    switch (device) {
-                        case 'laptop_pc': totalMultiplier += 1.0; break;
-                        case 'mobile': totalMultiplier += 1.5; break;
-                        case 'tv': totalMultiplier += 2.0; break;
-                        case 'gaming_system': totalMultiplier += 1.8; break;
-                        case 'other_system': totalMultiplier += 1.2; break;
-                    }
-                });
-
-                const avgMultiplier = totalMultiplier / devices.length;
-                const predictedTime = password.length * baseTimePerChar * avgMultiplier;
+                const predictedTime = password.length * baseTimePerChar;
 
                 return predictedTime.toFixed(2);
             }
@@ -428,6 +417,7 @@
 
             passInput.addEventListener("input", updatePrediction);
             checkboxes.forEach(cb => cb.addEventListener("change", updatePrediction));
+
         });
     </script>
 
